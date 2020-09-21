@@ -1,6 +1,9 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"math"
+)
 
 func findMedianSortedArrays(nums1 []int, nums2 []int) float64 {
 	m, n := len(nums1), len(nums2)
@@ -8,34 +11,44 @@ func findMedianSortedArrays(nums1 []int, nums2 []int) float64 {
 		return findMedianSortedArrays(nums2, nums1)
 	}
 
-	if m == 0 || nums1[m-1] == 0 {
+	if m == 0 {
+		return getMedian(nums2)
+	} else if nums1[m-1] == 0 {
 		return getMedian(nums2)
 	} else if len(nums2) == 0 {
 		return getMedian(nums1)
 	}
 
-	low, hi, midSize, mid1, mid2 := 0, m, (m+n+1)>>1, m>>2, 0
-	for mid1 <= hi && n-midSize >= 0 {
-		mid2 = n - midSize
+	low, hi, midSize, mid1 := 0, m-1, (m+n+1)>>1, m>>2
+	mid2 := midSize - mid1
+	for nums1[mid1] > nums2[mid2+1] && nums1[mid1+1] < nums2[mid2] {
 		if nums1[mid1] > nums2[mid2] {
 			low = mid1
-			mid1 = (low + hi + 1) >> 1
+
+		} else if nums1[mid1+1] < nums2[mid2] {
+			hi = mid1
 		}
+
+		mid1 = (low + hi + 1) >> 1
+		mid2 = midSize - mid1
 
 	}
 
-	orderArray := (append(left, right...))
-	fmt.Println(orderArray)
-	return getMedian(orderArray)
+	mi := math.Max(float64(nums1[mid1]), float64(nums2[mid2]))
+	if (n+m)%2 == 1 {
+		return mi
+	}
+	ma := math.Min(float64(nums1[mid1+1]), float64(nums2[mid2+1]))
+	return (mi + ma) / 2
+
 }
 
 func getMedian(arr []int) float64 {
 	length := len(arr)
 	if length%2 == 0 {
 		return float64((arr[length/2] + arr[length/2-1]) / 2)
-	} else {
-		return float64(arr[length/2])
 	}
+	return float64(arr[length/2])
 }
 
 // func testFromMap(tests map[int][][]int, i int) {
