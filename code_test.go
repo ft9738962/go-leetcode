@@ -4,12 +4,12 @@ import (
 	"testing"
 )
 
-func TestMaxArea(t *testing.T) {
-	test1 := []int{1, 8, 6, 2, 5, 4, 8, 3, 7}
-	test2 := []int{1, 1}
-	test3 := []int{4, 3, 2, 1, 4}
-	test4 := []int{1, 2, 1}
-	test5 := []int{2, 3, 4, 5, 18, 17, 6}
+func TestIntToRoman(t *testing.T) {
+	test1 := 3
+	test2 := 4
+	test3 := 9
+	test4 := 58
+	test5 := 1994
 	// test6S := "aab"
 	// test6P := "c*a**b"
 	// test7S := "aaa"
@@ -18,34 +18,34 @@ func TestMaxArea(t *testing.T) {
 	// test8P := "ab*a*c*a"
 	// 	str10 := "-   234"
 
-	got1 := maxArea(test1)
-	want1 := 49
+	got1 := intToRoman(test1)
+	want1 := "III"
 	if got1 != want1 {
-		t.Errorf("test 1 got %d want %d", got1, want1)
+		t.Errorf("test 1 got %#v want %#v", got1, want1)
 	}
 
-	got2 := maxArea(test2)
-	want2 := 1
+	got2 := intToRoman(test2)
+	want2 := "IV"
 	if got2 != want2 {
-		t.Errorf("test 2 got %d want %d", got2, want2)
+		t.Errorf("test 2 got %#v want %#v", got2, want2)
 	}
 
-	got3 := maxArea(test3)
-	want3 := 16
+	got3 := intToRoman(test3)
+	want3 := "IX"
 	if got3 != want3 {
-		t.Errorf("test 3 got %d want %d", got3, want3)
+		t.Errorf("test 3 got %#v want %#v", got3, want3)
 	}
 
-	got4 := maxArea(test4)
-	want4 := 2
+	got4 := intToRoman(test4)
+	want4 := "LVIII"
 	if got4 != want4 {
-		t.Errorf("test 4 got %d want %d", got4, want4)
+		t.Errorf("test 4 got %#v want %#v", got4, want4)
 	}
 
-	got5 := maxArea(test5)
-	want5 := 17
+	got5 := intToRoman(test5)
+	want5 := "MCMXCIV"
 	if got5 != want5 {
-		t.Errorf("test 5 got %d want %d", got5, want5)
+		t.Errorf("test 5 got %#v want %#v", got5, want5)
 	}
 
 	// got6 := isMatch(test6S, test6P)
