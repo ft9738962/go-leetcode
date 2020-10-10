@@ -54,11 +54,12 @@ Constraints:
 
 1 <= num <= 3999
 
-思路：
+思路1：
 构造一个字典，将数字从大至小解析，寻找对应的数字规则输出罗马字符
 
 这里使用了golang的string.Builder构造罗马数字，其对于内存的占用很小，比普通的string可以提高8ms
 ```go
+// runtime 0ms 100% memory 5.4MB 3.36%
 import "strings"
 
 func intToRoman(num int) string {
@@ -90,5 +91,39 @@ func intToRoman(num int) string {
 	}
 
 	return roman.String()
+}
+```
+
+思路2：
+用数组保存不同的罗马数字，使用10进制的关系，每次取出不同位上的5和10的罗马字符，使用switch case来分析
+```go
+// runtime 12ms 53.85% memory 3.4MB 9.36%
+func intToRoman(num int) string {
+	n := 1000
+	m := []string{"I", "V", "X", "L", "C", "D", "M", "", ""}
+	result := ""
+	s := 3
+	for n > 0 {
+		result += numToRoman(num/n, m[s*2], m[s*2+1], m[s*2+2])
+		num -= num / n * n
+		n = n / 10
+		s--
+	}
+	return result
+}
+
+func numToRoman(num int, one string, five string, ten string) string {
+	switch {
+	case num < 4:
+		return strings.Repeat(one, num)
+	case num == 4:
+		return one + five
+	case num >= 5 && num < 9:
+		return five + strings.Repeat(one, num-5)
+	case num == 9:
+		return one + ten
+	default:
+		return ""
+	}
 }
 ```

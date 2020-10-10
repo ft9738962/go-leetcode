@@ -1,36 +1,51 @@
 package main
 
-import "strings"
+func romanToInt(s string) int {
+	var result int
 
-func intToRoman(num int) string {
-	var romanMap = map[int]string{
-		1:    "I",
-		4:    "IV",
-		5:    "V",
-		9:    "IX",
-		10:   "X",
-		40:   "XL",
-		50:   "L",
-		90:   "XC",
-		100:  "C",
-		400:  "CD",
-		500:  "D",
-		900:  "CM",
-		1000: "M",
-	}
-
-	var roman strings.Builder
-	numlist := []int{1000, 900, 500, 400, 100,
-		90, 50, 40, 10, 9, 5, 4, 1}
-
-	for _, n := range numlist {
-		for num-n >= 0 {
-			roman.WriteString(romanMap[n])
-			num -= n
+	for _, b := range s {
+		switch b {
+		case 'M':
+			if result%1000 > 0 {
+				result += 800
+			} else {
+				result += 1000
+			}
+		case 'D':
+			if result%1000 > 0 {
+				result += 300
+			} else {
+				result += 500
+			}
+		case 'C':
+			if result%100 > 0 {
+				result += 80
+			} else {
+				result += 100
+			}
+		case 'L':
+			if result%100 > 0 {
+				result += 30
+			} else {
+				result += 50
+			}
+		case 'X':
+			if result%10 > 0 {
+				result += 8
+			} else {
+				result += 10
+			}
+		case 'V':
+			if result%10 > 0 {
+				result += 3
+			} else {
+				result += 5
+			}
+		case 'I':
+			result++
 		}
 	}
-
-	return roman.String()
+	return result
 }
 
 // func main() {
