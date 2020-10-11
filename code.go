@@ -1,53 +1,38 @@
 package main
 
-func romanToInt(s string) int {
-	var result int
+func longestCommonPrefix(strs []string) string {
 
-	for _, b := range s {
-		switch b {
-		case 'M':
-			if result%1000 > 0 {
-				result += 800
-			} else {
-				result += 1000
+	if len(strs) == 0 {
+		return ""
+	} else if len(strs) == 1 {
+		return strs[0]
+	}
+
+	cur := strs[0]
+
+	for _, word := range strs[1:] {
+		if len(cur) == 0 {
+			return ""
+		} else if len(cur) > len(word) {
+			cur, word = word, cur
+		}
+		for i := 0; i < len(cur); i++ {
+			if cur[i] == word[i] {
+				continue
 			}
-		case 'D':
-			if result%1000 > 0 {
-				result += 300
-			} else {
-				result += 500
-			}
-		case 'C':
-			if result%100 > 0 {
-				result += 80
-			} else {
-				result += 100
-			}
-		case 'L':
-			if result%100 > 0 {
-				result += 30
-			} else {
-				result += 50
-			}
-		case 'X':
-			if result%10 > 0 {
-				result += 8
-			} else {
-				result += 10
-			}
-		case 'V':
-			if result%10 > 0 {
-				result += 3
-			} else {
-				result += 5
-			}
-		case 'I':
-			result++
+			cur = cur[:i]
+			break
 		}
 	}
-	return result
+	return cur
 }
 
-// func main() {
-// 	fmt.Print(myAtoi("9223372036854775808"))
+// func min(a, b int) int {
+// 	if a < b {
+// 		return a
+// 	}
+// 	return b
 // }
+
+func main() {
+}
