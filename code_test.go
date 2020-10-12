@@ -4,10 +4,10 @@ import (
 	"testing"
 )
 
-func TestLongestCommonPrefix(t *testing.T) {
-	test1 := []string{"flower", "flow", "flight"}
-	test2 := []string{"dog", "racecar", "car"}
-	test3 := []string{"ab", "a"}
+func TestThreeSum(t *testing.T) {
+	test1 := []int{-1, 0, 1, 2, -1, -4}
+	test2 := []int{}
+	test3 := []int{0}
 	// test4 := "LVIII"
 	// test5 := "MCMXCIV"
 	// test6S := "aab"
@@ -18,8 +18,8 @@ func TestLongestCommonPrefix(t *testing.T) {
 	// test8P := "ab*a*c*a"
 	// 	str10 := "-   234"
 
-	got1 := longestCommonPrefix(test1)
-	want1 := "fl"
+	got1 := threeSum(test1)
+	want1 := [][]int{{-1, -1, 2}, {-1, 0, 1}}
 	if got1 != want1 {
 		t.Errorf("test 1 got %#v want %#v", got1, want1)
 	}
