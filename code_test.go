@@ -4,10 +4,10 @@ import (
 	"testing"
 )
 
-func TestThreeSum(t *testing.T) {
-	test1 := []int{-1, 0, 1, 2, -1, -4}
-	test2 := []int{}
-	test3 := []int{0}
+func TestThreeSumClosest(t *testing.T) {
+	test1 := []int{-1, 2, 1, -4}
+	test2 := []int{1, 1, 1, 0}
+	test3 := []int{0, 2, 1, -3}
 	// test4 := "LVIII"
 	// test5 := "MCMXCIV"
 	// test6S := "aab"
@@ -18,20 +18,20 @@ func TestThreeSum(t *testing.T) {
 	// test8P := "ab*a*c*a"
 	// 	str10 := "-   234"
 
-	got1 := threeSum(test1)
-	want1 := [][]int{{-1, -1, 2}, {-1, 0, 1}}
+	got1 := threeSumClosest(test1, 1)
+	want1 := 2
 	if got1 != want1 {
 		t.Errorf("test 1 got %#v want %#v", got1, want1)
 	}
 
-	got2 := longestCommonPrefix(test2)
-	want2 := ""
+	got2 := threeSumClosest(test2, 100)
+	want2 := 3
 	if got2 != want2 {
 		t.Errorf("test 2 got %#v want %#v", got2, want2)
 	}
 
-	got3 := longestCommonPrefix(test3)
-	want3 := "a"
+	got3 := threeSumClosest(test3, 1)
+	want3 := 0
 	if got3 != want3 {
 		t.Errorf("test 3 got %#v want %#v", got3, want3)
 	}
