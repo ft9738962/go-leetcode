@@ -4,10 +4,10 @@ import (
 	"testing"
 )
 
-func TestThreeSumClosest(t *testing.T) {
-	test1 := []int{-1, 2, 1, -4}
-	test2 := []int{1, 1, 1, 0}
-	test3 := []int{0, 2, 1, -3}
+func TestLetterCombinations(t *testing.T) {
+	test1 := "23"
+	test2 := ""
+	test3 := "2"
 	// test4 := "LVIII"
 	// test5 := "MCMXCIV"
 	// test6S := "aab"
@@ -18,8 +18,8 @@ func TestThreeSumClosest(t *testing.T) {
 	// test8P := "ab*a*c*a"
 	// 	str10 := "-   234"
 
-	got1 := threeSumClosest(test1, 1)
-	want1 := 2
+	got1 := letterCombinations(test1)
+	want1 := []string{"ad", "ae", "af", "bd", "be", "bf", "cd", "ce", "cf"}
 	if got1 != want1 {
 		t.Errorf("test 1 got %#v want %#v", got1, want1)
 	}
