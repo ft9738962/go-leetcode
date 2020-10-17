@@ -2,86 +2,46 @@ package main
 
 import (
 	"fmt"
-	"sort"
 )
 
-func fourSum(nums []int, target int) [][]int {
-	sort.Ints(nums)
-	var result = make([][]int, 0)
-
-	for i := range nums[:len(nums)-3] {
-		if i > 1 {
-			if nums[i] == nums[i-1] {
-				continue
-			}
-		}
-		rs := threeSum(nums[i+1:], target-nums[i])
-		for _, r := range rs {
-			var temp []int
-			result = append(result, append(append(temp, nums[i]), r...))
-		}
-	}
-	return result
+// ListNode ...
+type ListNode struct {
+	Val  int
+	Next *ListNode
 }
 
-func threeSum(nums []int, target int) [][]int {
-	if len(nums) < 3 {
-		return [][]int{}
-	}
-
-	sort.Ints(nums) // O(nlog(n))
-	var numsDict = make(map[int][]int)
-	var result [][]int
-
-	for i, n := range nums {
-		if _, ok := numsDict[n]; ok != true {
-			numsDict[n] = []int{i}
-		} else {
-			numsDict[n] = append(numsDict[n], i)
-		} // O(n)
-	}
-
-	for i := 0; i < len(nums)-2; i++ {
-		if i > 0 {
-			if nums[i-1] == nums[i] {
-				continue
-			}
-			if nums[i-1]+nums[i] > 0 {
-				break
-			}
+func removeNthFromEnd(head *ListNode, n int) *ListNode {
+	cur := head
+	dist := 1
+	var before = head
+	for cur.Next != nil {
+		if dist >= n+1 {
+			before = before.Next
 		}
-
-		for j := i + 1; j < len(nums); j++ {
-			if nums[j-1] == nums[j] && j > i+1 {
-				continue
-			}
-			if locs, ok := numsDict[target-nums[i]-nums[j]]; ok == true {
-				if locs[len(locs)-1] <= j {
-					continue
-				}
-				result = append(result,
-					[]int{nums[i], nums[j], target - nums[i] - nums[j]})
-			}
-			if nums[i]+nums[j]-target > 0 {
-				break
-			}
-		}
+		cur = cur.Next
+		dist++
 	}
-	return result
+	if dist == n {
+		head = before.Next
+	} else {
+		before.Next = before.Next.Next
+	}
+	return head
 }
-
-// func abs(a int) int {
-// 	if a < 0 {
-// 		return -a
-// 	}
-// 	return a
-// }
 
 func main() {
-	test1 := make([]int, 0)
+	test1 := []int{1, 0, -1, 0, -2, 2}
+	test2 := []int{-1, -5, -5, -3, 2, 5, 0, 4}
+	test3 := []int{-1, 2, 2, -5, 0, -1, 4}
+	test4 := []int{2, -4, -5, -2, -3, -5, 0, 4, -2}
+	test5 := []int{-2, -1, -1, 1, 1, 2, 2}
 	// rand.Seed(time.Now().UnixNano())
 	// for i := 0; i < 100; i++ {
 	// 	test1 = append(test1, rand.Intn(101)-50)
 	// }
-	fmt.Println(fourSum(test1, 1))
+	fmt.Println(fourSum(test1, 0))
+	fmt.Println(fourSum(test2, -7))
+	fmt.Println(fourSum(test3, 3))
+	fmt.Println(fourSum(test4, -14))
+	fmt.Println(fourSum(test5, 0))
 }
