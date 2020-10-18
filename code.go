@@ -1,47 +1,61 @@
 package main
 
-import (
-	"fmt"
-)
-
 // ListNode ...
-type ListNode struct {
-	Val  int
-	Next *ListNode
-}
+// type ListNode struct {
+// 	Val  int
+// 	Next *ListNode
+// }
 
-func removeNthFromEnd(head *ListNode, n int) *ListNode {
-	cur := head
-	dist := 1
-	var before = head
-	for cur.Next != nil {
-		if dist >= n+1 {
-			before = before.Next
+func isValid(s string) bool {
+	if len(s) == 0 || len(s)%2 != 0 {
+		return false
+	}
+
+	if string(s[len(s)-1]) == "(" ||
+		string(s[len(s)-1]) == "[" ||
+		string(s[len(s)-1]) == "{" {
+		return false
+	}
+
+	var left string
+	var loc int
+
+	for len(s) > 0 {
+
+		for i := len(s) - 2; i >= 0; i-- {
+			if string(s[i]) == "(" ||
+				string(s[i]) == "[" ||
+				string(s[i]) == "{" {
+				left = string(s[i])
+				loc = i
+				break
+			} else if i == 0 {
+				return false
+			}
 		}
-		cur = cur.Next
-		dist++
+		for j := loc + 1; j < len(s); j = j + 2 {
+			pair := (left == "(" && string(s[j]) == ")") ||
+				(left == "[" && string(s[j]) == "]") ||
+				(left == "{" && string(s[j]) == "}")
+			if pair {
+				if j == loc+1 {
+					s = s[:loc] + s[loc+2:]
+				} else {
+					s = s[:loc] + s[loc+1:j] + s[j+1:]
+				}
+				break
+			} else if j+2 >= len(s) {
+				return false
+			}
+		}
 	}
-	if dist == n {
-		head = before.Next
-	} else {
-		before.Next = before.Next.Next
-	}
-	return head
+	return true
 }
 
-func main() {
-	test1 := []int{1, 0, -1, 0, -2, 2}
-	test2 := []int{-1, -5, -5, -3, 2, 5, 0, 4}
-	test3 := []int{-1, 2, 2, -5, 0, -1, 4}
-	test4 := []int{2, -4, -5, -2, -3, -5, 0, 4, -2}
-	test5 := []int{-2, -1, -1, 1, 1, 2, 2}
-	// rand.Seed(time.Now().UnixNano())
-	// for i := 0; i < 100; i++ {
-	// 	test1 = append(test1, rand.Intn(101)-50)
-	// }
-	fmt.Println(fourSum(test1, 0))
-	fmt.Println(fourSum(test2, -7))
-	fmt.Println(fourSum(test3, 3))
-	fmt.Println(fourSum(test4, -14))
-	fmt.Println(fourSum(test5, 0))
-}
+// func main() {
+// 	// test1 := []int{1, 0, -1, 0, -2, 2}
+
+// 	// rand.Seed(time.Now().UnixNano())
+// 	// for i := 0; i < 100; i++ {
+// 	// 	test1 = append(test1, rand.Intn(101)-50)
+// }

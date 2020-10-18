@@ -4,13 +4,13 @@ import (
 	"testing"
 )
 
-func TestLetterCombinations(t *testing.T) {
-	test1 := "23"
-	test2 := ""
-	test3 := "2"
-	// test4 := "LVIII"
-	// test5 := "MCMXCIV"
-	// test6S := "aab"
+func TestIsValid(t *testing.T) {
+	// test1 := "()"
+	test2 := "()[]{}"
+	// test3 := "(]"
+	// test4 := "([)]"
+	test5 := "{[]}"
+	test6 := "[([]])"
 	// test6P := "c*a**b"
 	// test7S := "aaa"
 	// test7P := "a*a"
@@ -18,41 +18,41 @@ func TestLetterCombinations(t *testing.T) {
 	// test8P := "ab*a*c*a"
 	// 	str10 := "-   234"
 
-	got1 := letterCombinations(test1)
-	want1 := []string{"ad", "ae", "af", "bd", "be", "bf", "cd", "ce", "cf"}
-	if got1 != want1 {
-		t.Errorf("test 1 got %#v want %#v", got1, want1)
-	}
+	// got1 := isValid(test1)
+	// want1 := true
+	// if got1 != want1 {
+	// 	t.Errorf("test 1 got %#v want %#v", got1, want1)
+	// }
 
-	got2 := threeSumClosest(test2, 100)
-	want2 := 3
+	got2 := isValid(test2)
+	want2 := true
 	if got2 != want2 {
 		t.Errorf("test 2 got %#v want %#v", got2, want2)
 	}
 
-	got3 := threeSumClosest(test3, 1)
-	want3 := 0
-	if got3 != want3 {
-		t.Errorf("test 3 got %#v want %#v", got3, want3)
-	}
+	// got3 := isValid(test3)
+	// want3 := false
+	// if got3 != want3 {
+	// 	t.Errorf("test 3 got %#v want %#v", got3, want3)
+	// }
 
-	// got4 := romanToInt(test4)
-	// want4 := 58
+	// got4 := isValid(test4)
+	// want4 := false
 	// if got4 != want4 {
 	// 	t.Errorf("test 4 got %#v want %#v", got4, want4)
 	// }
 
-	// got5 := romanToInt(test5)
-	// want5 := 1994
-	// if got5 != want5 {
-	// 	t.Errorf("test 5 got %#v want %#v", got5, want5)
-	// }
+	got5 := isValid(test5)
+	want5 := true
+	if got5 != want5 {
+		t.Errorf("test 5 got %#v want %#v", got5, want5)
+	}
 
-	// got6 := isMatch(test6S, test6P)
-	// want6 := false
-	// if got6 != want6 {
-	// 	t.Errorf("test 6 got %t want %t", got6, want6)
-	// }
+	got6 := isValid(test6)
+	want6 := false
+	if got6 != want6 {
+		t.Errorf("test 6 got %t want %t", got6, want6)
+	}
 
 	// got7 := isMatch(test7S, test7P)
 	// want7 := true
