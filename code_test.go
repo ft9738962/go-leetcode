@@ -4,13 +4,44 @@ import (
 	"testing"
 )
 
-func TestIsValid(t *testing.T) {
-	// test1 := "()"
-	test2 := "()[]{}"
+func TestMergeTwoLists(t *testing.T) {
+	c := &ListNode{
+		Val:  4,
+		Next: nil,
+	}
+
+	b := &ListNode{
+		Val:  2,
+		Next: c,
+	}
+
+	a := &ListNode{
+		Val:  1,
+		Next: b,
+	}
+
+	f := &ListNode{
+		Val:  4,
+		Next: nil,
+	}
+
+	e := &ListNode{
+		Val:  3,
+		Next: f,
+	}
+
+	d := &ListNode{
+		Val:  1,
+		Next: e,
+	}
+
+	test1L1 := a
+	test1L2 := d
+	// test2 := "()[]{}"
 	// test3 := "(]"
 	// test4 := "([)]"
-	test5 := "{[]}"
-	test6 := "[([]])"
+	// test5 := "{[]}"
+	// test6 := "[([]])"
 	// test6P := "c*a**b"
 	// test7S := "aaa"
 	// test7P := "a*a"
@@ -24,7 +55,7 @@ func TestIsValid(t *testing.T) {
 	// 	t.Errorf("test 1 got %#v want %#v", got1, want1)
 	// }
 
-	got2 := isValid(test2)
+	got2 := isM(test2)
 	want2 := true
 	if got2 != want2 {
 		t.Errorf("test 2 got %#v want %#v", got2, want2)

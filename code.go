@@ -1,61 +1,89 @@
 package main
 
+import "fmt"
+
 // ListNode ...
-// type ListNode struct {
-// 	Val  int
-// 	Next *ListNode
-// }
-
-func isValid(s string) bool {
-	if len(s) == 0 || len(s)%2 != 0 {
-		return false
-	}
-
-	if string(s[len(s)-1]) == "(" ||
-		string(s[len(s)-1]) == "[" ||
-		string(s[len(s)-1]) == "{" {
-		return false
-	}
-
-	var left string
-	var loc int
-
-	for len(s) > 0 {
-
-		for i := len(s) - 2; i >= 0; i-- {
-			if string(s[i]) == "(" ||
-				string(s[i]) == "[" ||
-				string(s[i]) == "{" {
-				left = string(s[i])
-				loc = i
-				break
-			} else if i == 0 {
-				return false
-			}
-		}
-		for j := loc + 1; j < len(s); j = j + 2 {
-			pair := (left == "(" && string(s[j]) == ")") ||
-				(left == "[" && string(s[j]) == "]") ||
-				(left == "{" && string(s[j]) == "}")
-			if pair {
-				if j == loc+1 {
-					s = s[:loc] + s[loc+2:]
-				} else {
-					s = s[:loc] + s[loc+1:j] + s[j+1:]
-				}
-				break
-			} else if j+2 >= len(s) {
-				return false
-			}
-		}
-	}
-	return true
+type ListNode struct {
+	Val  int
+	Next *ListNode
 }
 
-// func main() {
-// 	// test1 := []int{1, 0, -1, 0, -2, 2}
+func mergeTwoLists(l1 *ListNode, l2 *ListNode) *ListNode {
+	var head, cur *ListNode
+	if l1 == head {
+		return l2
+	}
+	if l2 == head {
+		return l1
+	}
+	if comp(l1.Val, l2.Val) {
+		head = l2
+		fmt.Println(head)
+	} else {
+		head = l1
+	}
+	cur = head
 
-// 	// rand.Seed(time.Now().UnixNano())
-// 	// for i := 0; i < 100; i++ {
-// 	// 	test1 = append(test1, rand.Intn(101)-50)
-// }
+	for l1.Next != nil && l2.Next != nil {
+		if l1.Next == nil {
+			cur.Next = l2
+			break
+		}
+		if l2.Next == nil {
+			cur.Next = l1
+			break
+		}
+		if comp(l1.Val, l2.Val) {
+			cur.Next = l2
+			l2 = l2.Next
+			cur = cur.Next
+		} else {
+			cur.Next = l1
+			l1 = l1.Next
+			cur = cur.Next
+		}
+	}
+	return head
+}
+
+func comp(a, b int) bool {
+	if a > b {
+		return true
+	}
+	return false
+}
+
+func main() {
+	c := &ListNode{
+		Val:  4,
+		Next: nil,
+	}
+
+	b := &ListNode{
+		Val:  2,
+		Next: c,
+	}
+
+	a := &ListNode{
+		Val:  1,
+		Next: b,
+	}
+
+	f := &ListNode{
+		Val:  4,
+		Next: nil,
+	}
+
+	e := &ListNode{
+		Val:  3,
+		Next: f,
+	}
+
+	d := &ListNode{
+		Val:  1,
+		Next: e,
+	}
+
+	fmt.Println(mergeTwoLists(a, d))
+
+}
