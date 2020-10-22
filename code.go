@@ -21,6 +21,8 @@ func mergeKLists(lists []*ListNode) *ListNode {
 	}
 
 	lists = firstOrderLists(lists, emp)
+	// printVals(lists[0])
+	// printVals(lists[1])
 
 	var resultHead, curResult *ListNode
 	resultHead = lists[0]
@@ -29,10 +31,15 @@ func mergeKLists(lists []*ListNode) *ListNode {
 
 		if lists[0].Next == nil {
 			lists = lists[1:]
+			printVals(lists[0])
+			curResult.Next = lists[0]
+			printVals(lists[0])
+			curResult = curResult.Next
 			continue
 		}
 		for lists[0].Next != nil {
 			lists[0] = lists[0].Next
+			printVals(lists[0])
 			if lists[0].Val <= lists[1].Val {
 				curResult = curResult.Next
 				continue
@@ -61,6 +68,7 @@ func firstOrderLists(lists []*ListNode, emp *ListNode) []*ListNode {
 		}
 	}
 	sort.Ints(order)
+	// fmt.Println(order)
 
 	for j := 0; j < len(order); j++ {
 		if j > 0 {
@@ -102,71 +110,84 @@ func reorderLists(lists []*ListNode) []*ListNode {
 	return lists
 }
 
+func printVals(head *ListNode) {
+	ct := 0
+	fmt.Println("start")
+	for head.Next != nil && ct < 5 {
+		fmt.Println(head.Val)
+		head = head.Next
+		ct++
+	}
+	fmt.Println(head.Val)
+	fmt.Println("end")
+}
+
 func main() {
 	a1 := ListNode{
-		Val:  100,
+		Val:  1,
 		Next: nil,
 	}
 
 	a2 := ListNode{
-		Val:  800,
+		Val:  4,
 		Next: nil,
 	}
 
 	a3 := ListNode{
-		Val:  1000,
+		Val:  5,
 		Next: nil,
 	}
 
 	b1 := ListNode{
-		Val:  70,
+		Val:  1,
 		Next: nil,
 	}
 
 	b2 := ListNode{
-		Val:  90,
+		Val:  3,
 		Next: nil,
 	}
 
 	b3 := ListNode{
-		Val:  130,
+		Val:  4,
 		Next: nil,
 	}
 
-	b4 := ListNode{
-		Val:  700,
-		Next: nil,
-	}
+	// b4 := ListNode{
+	// 	Val:  700,
+	// 	Next: nil,
+	// }
 
-	c1 := ListNode{
-		Val:  110,
-		Next: nil,
-	}
+	// c1 := ListNode{
+	// 	Val:  110,
+	// 	Next: nil,
+	// }
 
 	d1 := ListNode{
-		Val:  130,
+		Val:  2,
 		Next: nil,
 	}
 
 	d2 := ListNode{
-		Val:  830,
+		Val:  6,
 		Next: nil,
 	}
 
-	d3 := ListNode{
-		Val:  1130,
-		Next: nil,
-	}
+	// d3 := ListNode{
+	// 	Val:  1130,
+	// 	Next: nil,
+	// }
 
 	a1.Next = &a2
 	a2.Next = &a3
 	b1.Next = &b2
 	b2.Next = &b3
-	b3.Next = &b4
+	// b3.Next = &b4
 	d1.Next = &d2
-	d2.Next = &d3
+	// d2.Next = &d3
 
-	lists := []*ListNode{&a1, &b1, &c1, &d1}
+	// lists := []*ListNode{&a1, &b1, &c1, &d1}
+	lists := []*ListNode{&a1, &b1, &d1}
 
 	// var emp *ListNode
 
@@ -178,13 +199,5 @@ func main() {
 	// 	fmt.Println(n.Val)
 
 	head := mergeKLists(lists)
-	a := 0
-	fmt.Println("start")
-	for head.Next != nil && a < 15 {
-		fmt.Println(head.Val)
-		head = head.Next
-		a++
-	}
-	fmt.Println(head.Val)
-	fmt.Println("end")
+	printVals(head)
 }
