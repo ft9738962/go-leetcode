@@ -24,59 +24,54 @@ func mergeKLists(lists []*ListNode) *ListNode {
 	}
 
 	sort.Ints(vals)
+	var resultHead, curResult *ListNode
 
-	for i := 0; j < len(vals); j++ {
+	for i := 0; i < len(vals); i++ {
 		if i > 0 {
-			if order[i] == order[i-1] {
+			if vals[i] == vals[i-1] {
 				continue
 			}
 		}
-		nodes := valMap[order[j]]
-		for k := 0; k < len(nodes); k++ {
-			lists[ct] = nodes[k]
-			ct++
+
+		nodes := valMap[vals[i]]
+		for j := 0; j < len(nodes); j++ {
+			if resultHead == emp {
+				resultHead = nodes[j]
+				curResult = resultHead
+			} else {
+				curResult.Next = nodes[j]
+				curResult = curResult.Next
+			}
 		}
 	}
-
-	var resultHead, curResult *ListNode
 
 	return resultHead
 }
 
-func firstOrderLists(lists []*ListNode, emp *ListNode) ([]int, map[int][]*ListNode, int) {
-	vals := []int{}
-	valMap := map[int][]*ListNode{}
-	nonEmptyListCount := 0
-	var list *ListNode
-	for i := 0; i < len(lists); i++ {
-		if lists[i] != emp {
-			list = lists[i]
-			for list.Next != nil {
-				vals = append(vals, list.Val)
-				if _, ok := valMap[list.Val]; ok != false {
-					valMap[list.Val] = append(valMap[lists[i].Val], list)
-				} else {
-					valMap[list.Val] = []*ListNode{list}
-				}
-				list = list.Next
+func mergeTwoLists(a *ListNode, b *ListNode) *ListNode {
+	prehead := &ListNode{Val: 0}
+	cur := prehead
 
-			}
-			vals = append(vals, list.Val)
-			if _, ok := valMap[list.Val]; ok != false {
-				valMap[list.Val] = append(valMap[lists[i].Val], list)
-			} else {
-				valMap[list.Val] = []*ListNode{list}
-			}
-			nonEmptyListCount++
+	for (a.Next != nil && a.Val >= b.Val) || 
+		(b.Next != nil && a.Val <= b.Val) {
+		if a.Val < b.Val {
+			cur.Next = a
+			a = a.Next
+		} else {
+			cur.Next = b
+			b = b.Next
 		}
+		cur = cur.Next
 	}
-	if nonEmptyListCount == 0 {
-		return vals, valMap, nonEmptyListCount
+
+	if a.Next == nil {
+			cur.Next = b
+			b = b.Next
+			cur = cur.Next
+		}
+		cur.Next = a
+		cur.Next = 
 	}
-}
-
-func addToMap(valMap map[int][]*ListNode, node *ListNode) map[int][]*ListNode {
-
 }
 
 func printVals(head *ListNode) {
@@ -91,67 +86,67 @@ func printVals(head *ListNode) {
 
 func main() {
 	a1 := ListNode{
-		Val:  2,
+		Val:  1,
 		Next: nil,
 	}
 
-	// a2 := ListNode{
-	// 	Val:  4,
-	// 	Next: nil,
-	// }
+	a2 := ListNode{
+		Val:  4,
+		Next: nil,
+	}
 
-	// a3 := ListNode{
-	// 	Val:  5,
-	// 	Next: nil,
-	// }
+	a3 := ListNode{
+		Val:  5,
+		Next: nil,
+	}
 
-	// b1 := ListNode{
-	// 	Val:  1,
-	// 	Next: nil,
-	// }
+	b1 := ListNode{
+		Val:  1,
+		Next: nil,
+	}
 
-	// b2 := ListNode{
-	// 	Val:  3,
-	// 	Next: nil,
-	// }
+	b2 := ListNode{
+		Val:  3,
+		Next: nil,
+	}
 
-	// b3 := ListNode{
-	// 	Val:  4,
-	// 	Next: nil,
-	// }
+	b3 := ListNode{
+		Val:  4,
+		Next: nil,
+	}
 
 	// b4 := ListNode{
 	// 	Val:  700,
 	// 	Next: nil,
 	// }
 
-	var c1 *ListNode
+	// var c1 *ListNode
 
 	d1 := ListNode{
-		Val:  -1,
+		Val:  2,
 		Next: nil,
 	}
 
-	// d2 := ListNode{
-	// 	Val:  6,
-	// 	Next: nil,
-	// }
+	d2 := ListNode{
+		Val:  6,
+		Next: nil,
+	}
 
 	// d3 := ListNode{
 	// 	Val:  1130,
 	// 	Next: nil,
 	// }
 
-	// a1.Next = &a2
-	// a2.Next = &a3
-	// b1.Next = &b2
-	// b2.Next = &b3
+	a1.Next = &a2
+	a2.Next = &a3
+	b1.Next = &b2
+	b2.Next = &b3
 	// b3.Next = &b4
-	// d1.Next = &d2
+	d1.Next = &d2
 	// d2.Next = &d3
 
-	// lists := []*ListNode{&a1, &b1, &c1, &d1}
-	lists := []*ListNode{&a1, c1, &d1}
+	// lists := []*ListNode{&a1, &b1, c1, &d1}
+	lists := []*ListNode{&a1, &b1, &d1}
 
 	// var emp *ListNode
 
