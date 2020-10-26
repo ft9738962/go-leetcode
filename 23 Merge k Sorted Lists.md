@@ -38,10 +38,13 @@ Output: []
 - lists[i] is sorted in ascending order.
 - The sum of lists[i].length won't exceed 10^4.
 
-思路：
+### 思路1：
 1. 将数据全部遍历一边，存放在切片里，建立一个哈希表存放数值和节点的键值对
 2. 对切片进行排序
 3. 根据切片顺序寻找哈希表中对应的节点连接起来
+
+优点：不如思路2
+缺点：需要额外的哈希表存放键值对关系
    
 ```go
 // runtime 12ms 70.4% memory 6.4MB 10.4%
@@ -110,5 +113,66 @@ func firstOrderLists(lists []*ListNode, emp *ListNode) ([]int, map[int][]*ListNo
 		}
 	}
 	return vals, valMap, nonEmptyListCount
+}
+```
+
+### 思路2：
+1. 每次取2条链表进行合并，将合并好的新列表插入原切片，抛弃原来的2条链表
+2. 重复过程1，直到只剩1条链表
+3. 返回链表头
+4. 算法复杂度O(nlogk) k为链表的数量
+
+优点：较思路1节约了哈希表
+
+```go
+// runtime 8ms 95.65% memory 5.7MB 10.87% 
+func mergeKLists(lists []*ListNode) *ListNode {
+	var emp *ListNode
+
+	if len(lists) == 1 {
+		return lists[0]
+	} else if len(lists) == 0 {
+		return emp
+	}
+
+	if len(lists) > 2 {
+		for len(lists) > 2 {
+			lists = append(lists, mergeTwoLists(lists[0], lists[1]))[2:]
+		}
+	}
+	return mergeTwoLists(lists[0], lists[1])
+}
+
+func mergeTwoLists(a *ListNode, b *ListNode) *ListNode {
+	prehead := &ListNode{Val: 0}
+	cur := prehead
+
+	for a != nil && b != nil {
+		if a.Val < b.Val {
+			cur.Next = a
+			a = a.Next
+		} else {
+			cur.Next = b
+			b = b.Next
+		}
+		cur = cur.Next
+
+	}
+
+	if a == nil {
+		cur.Next = b
+	} else {
+		cur.Next = a
+	}
+	return prehead.Next
+}
+
+func printVals(head *ListNode) {
+	fmt.Println("start")
+	for head != nil {
+		fmt.Println(head.Val)
+		head = head.Next
+	}
+	fmt.Println("end")
 }
 ```
