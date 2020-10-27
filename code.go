@@ -10,17 +10,39 @@ type ListNode struct {
 
 func reverseKGroup(head *ListNode, k int) *ListNode {
 
-	var temp []*ListNode
-	cur := head
-	for i := 0; i < k; i++ {
-		temp = append(temp, cur)
-		cur = cur.Next
+	if head.Next == nil {
+		return head
 	}
-	for j := len(temp) - 1; j > 0; j-- {
-		temp[j].Next = temp[j-1]
+	ct := countListNodes(head)
+	temp := &ListNode{Val: -1, Next: head}
+	head = temp
+	prev := head
+	var left, right, next, first *ListNode
+	for i := 0; i < ct/k; i++ {
+		left = prev.Next
+		right = left.Next
+		for j := 0; j < k-1; j++ {
+			next = right.Next
+			right.Next = left
+			left = right
+			right = next
+		}
+		first = prev.Next
+		first.Next = right
+		prev.Next = left
+		prev = first
 	}
-	temp[0].Next = cur
-	return temp[len(temp)-1]
+
+	return head.Next
+}
+
+func countListNodes(head *ListNode) int {
+	ct := 0
+	for head != nil {
+		ct++
+		head = head.Next
+	}
+	return ct
 }
 
 func printVals(head *ListNode) {
@@ -57,10 +79,10 @@ func main() {
 		Val:  5,
 		Next: nil,
 	}
-	// a6 := ListNode{
-	// 	Val:  6,
-	// 	Next: nil,
-	// }
+	a6 := ListNode{
+		Val:  6,
+		Next: nil,
+	}
 
 	// var c1 *ListNode
 
@@ -83,7 +105,7 @@ func main() {
 	a2.Next = &a3
 	a3.Next = &a4
 	a4.Next = &a5
-	// a5.Next = &a6
+	a5.Next = &a6
 
 	// d1.Next = &d2
 	// d2.Next = &d3
@@ -102,7 +124,7 @@ func main() {
 	// 	fmt.Println(n.Val)
 
 	// head := mergeTwoLists(&a1, &b1)
-	head := reverseKGroup(&a1, 2)
+	head := reverseKGroup(&a1, 1)
 	printVals(head)
 
 }
