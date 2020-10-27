@@ -8,34 +8,19 @@ type ListNode struct {
 	Next *ListNode
 }
 
-func swapPairs(head *ListNode) *ListNode {
-	if head == nil || head.Next == nil {
-		return head
+func reverseKGroup(head *ListNode, k int) *ListNode {
+
+	var temp []*ListNode
+	cur := head
+	for i := 0; i < k; i++ {
+		temp = append(temp, cur)
+		cur = cur.Next
 	}
-
-	a := head
-	b := head.Next
-	head = b
-	var last *ListNode
-	last = nil
-
-	for {
-		if last == nil {
-			last = a
-		} else {
-			last.Next = b
-		}
-		a.Next, b.Next = b.Next, a
-		if a.Next == nil {
-			break
-		}
-		if a.Next.Next == nil {
-			break
-		}
-		last, a, b = a, a.Next, a.Next.Next
+	for j := len(temp) - 1; j > 0; j-- {
+		temp[j].Next = temp[j-1]
 	}
-
-	return head
+	temp[0].Next = cur
+	return temp[len(temp)-1]
 }
 
 func printVals(head *ListNode) {
@@ -72,10 +57,10 @@ func main() {
 		Val:  5,
 		Next: nil,
 	}
-	a6 := ListNode{
-		Val:  6,
-		Next: nil,
-	}
+	// a6 := ListNode{
+	// 	Val:  6,
+	// 	Next: nil,
+	// }
 
 	// var c1 *ListNode
 
@@ -98,7 +83,7 @@ func main() {
 	a2.Next = &a3
 	a3.Next = &a4
 	a4.Next = &a5
-	a5.Next = &a6
+	// a5.Next = &a6
 
 	// d1.Next = &d2
 	// d2.Next = &d3
@@ -117,7 +102,7 @@ func main() {
 	// 	fmt.Println(n.Val)
 
 	// head := mergeTwoLists(&a1, &b1)
-	head := swapPairs(&a1)
+	head := reverseKGroup(&a1, 2)
 	printVals(head)
 
 }
