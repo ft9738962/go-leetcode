@@ -4,10 +4,12 @@ import (
 	"testing"
 )
 
-func TestRemoveDuplicates(t *testing.T) {
-	test2 := []int{1, 1, 2}
-	test3 := []int{0, 0, 1, 1, 1, 2, 2, 3, 3, 4}
-	// test4 := "([)]"
+func TestDivide(t *testing.T) {
+	test1 := []int{10, 3}
+	test2 := []int{7, -3}
+	test3 := []int{0, 1}
+	test4 := []int{1, 1}
+	test5 := []int{-2147483648, 2}
 	// test5 := "{[]}"
 	// test6 := "[([]])"
 	// test6P := "c*a**b"
@@ -17,41 +19,41 @@ func TestRemoveDuplicates(t *testing.T) {
 	// test8P := "ab*a*c*a"
 	// 	str10 := "-   234"
 
-	// got1 := isValid(test1)
-	// want1 := true
-	// if got1 != want1 {
-	// 	t.Errorf("test 1 got %#v want %#v", got1, want1)
-	// }
+	got1 := divide(test1[0], test1[1])
+	want1 := 3
+	if got1 != want1 {
+		t.Errorf("test 1 got %#v want %#v", got1, want1)
+	}
 
-	got2 := test2[:removeDuplicates(test2)]
-	want2 := []int{1, 2}
+	got2 := divide(test2[0], test2[1])
+	want2 := -2
 	if got2 != want2 {
 		t.Errorf("test 2 got %#v want %#v", got2, want2)
 	}
 
-	// got3 := isValid(test3)
-	// want3 := false
-	// if got3 != want3 {
-	// 	t.Errorf("test 3 got %#v want %#v", got3, want3)
-	// }
+	got3 := divide(test3[0], test3[1])
+	want3 := 0
+	if got3 != want3 {
+		t.Errorf("test 3 got %#v want %#v", got3, want3)
+	}
 
-	// got4 := isValid(test4)
-	// want4 := false
-	// if got4 != want4 {
-	// 	t.Errorf("test 4 got %#v want %#v", got4, want4)
-	// }
+	got4 := divide(test4[0], test4[1])
+	want4 := 1
+	if got4 != want4 {
+		t.Errorf("test 4 got %#v want %#v", got4, want4)
+	}
 
-	got5 := isValid(test5)
-	want5 := true
+	got5 := divide(test5[0], test5[1])
+	want5 := -1073741824
 	if got5 != want5 {
 		t.Errorf("test 5 got %#v want %#v", got5, want5)
 	}
 
-	got6 := isValid(test6)
-	want6 := false
-	if got6 != want6 {
-		t.Errorf("test 6 got %t want %t", got6, want6)
-	}
+	// got6 := isValid(test6)
+	// want6 := false
+	// if got6 != want6 {
+	// 	t.Errorf("test 6 got %t want %t", got6, want6)
+	// }
 
 	// got7 := isMatch(test7S, test7P)
 	// want7 := true
