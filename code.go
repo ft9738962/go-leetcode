@@ -8,19 +8,16 @@ type ListNode struct {
 	Next *ListNode
 }
 
-func reverseKGroup(head *ListNode, k int) *ListNode {
-
-	var temp []*ListNode
-	cur := head
-	for i := 0; i < k; i++ {
-		temp = append(temp, cur)
-		cur = cur.Next
+func removeDuplicates(nums []int) int {
+	j := 0
+	for i := 1; i < len(nums); i++ {
+		if nums[i-1] != nums[i] {
+			j++
+			nums[j] = nums[i]
+		}
 	}
-	for j := len(temp) - 1; j > 0; j-- {
-		temp[j].Next = temp[j-1]
-	}
-	temp[0].Next = cur
-	return temp[len(temp)-1]
+	nums = nums[:j]
+	return j + 1
 }
 
 func printVals(head *ListNode) {
@@ -33,30 +30,9 @@ func printVals(head *ListNode) {
 }
 
 func main() {
-	a1 := ListNode{
-		Val:  1,
-		Next: nil,
-	}
-
-	a2 := ListNode{
-		Val:  2,
-		Next: nil,
-	}
-
-	a3 := ListNode{
-		Val:  3,
-		Next: nil,
-	}
-
-	a4 := ListNode{
-		Val:  4,
-		Next: nil,
-	}
-
-	a5 := ListNode{
-		Val:  5,
-		Next: nil,
-	}
+	test1 := []int{1, 1}
+	test2 := []int{1, 1, 2}
+	test3 := []int{0, 0, 1, 1, 1, 2, 2, 3, 3, 4}
 	// a6 := ListNode{
 	// 	Val:  6,
 	// 	Next: nil,
@@ -79,10 +55,6 @@ func main() {
 	// 	Next: nil,
 	// }
 
-	a1.Next = &a2
-	a2.Next = &a3
-	a3.Next = &a4
-	a4.Next = &a5
 	// a5.Next = &a6
 
 	// d1.Next = &d2
@@ -102,7 +74,11 @@ func main() {
 	// 	fmt.Println(n.Val)
 
 	// head := mergeTwoLists(&a1, &b1)
-	head := reverseKGroup(&a1, 2)
-	printVals(head)
+	answer1 := test1[:removeDuplicates(test1)]
+	answer2 := test2[:removeDuplicates(test2)]
+	answer3 := test3[:removeDuplicates(test3)]
+	fmt.Printf("answer1 %v\n", answer1)
+	fmt.Printf("answer2 %v\n", answer2)
+	fmt.Printf("answer3 %v\n", answer3)
 
 }

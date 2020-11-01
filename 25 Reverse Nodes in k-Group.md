@@ -35,3 +35,23 @@ The number of nodes in the list is in the range sz.
 - 1 <= sz <= 5000
 - 0 <= Node.val <= 1000
 - 1 <= k <= sz
+
+思路：
+- 使用双指针，指针a从第2位遍历到最末位，寻找与前一位不同的数
+- 当指针a找到了不同数时，指针b将这个数搬运到从第2位起，确保指针b前的数字都不同
+- 最后返回指针b的后一位数字
+
+```go
+// runtime 8ms 88.5% memory4.6MB 100%
+func removeDuplicates(nums []int) int {
+	j := 0
+	for i := 1; i < len(nums); i++ {
+		if nums[i-1] != nums[i] {
+			j++
+			nums[j] = nums[i]
+		}
+	}
+	nums = nums[:j]
+	return j + 1
+}
+```

@@ -4,41 +4,9 @@ import (
 	"testing"
 )
 
-func TestMergeTwoLists(t *testing.T) {
-	c := &ListNode{
-		Val:  4,
-		Next: nil,
-	}
-
-	b := &ListNode{
-		Val:  2,
-		Next: c,
-	}
-
-	a := &ListNode{
-		Val:  1,
-		Next: b,
-	}
-
-	f := &ListNode{
-		Val:  4,
-		Next: nil,
-	}
-
-	e := &ListNode{
-		Val:  3,
-		Next: f,
-	}
-
-	d := &ListNode{
-		Val:  1,
-		Next: e,
-	}
-
-	test1L1 := a
-	test1L2 := d
-	// test2 := "()[]{}"
-	// test3 := "(]"
+func TestRemoveDuplicates(t *testing.T) {
+	test2 := []int{1, 1, 2}
+	test3 := []int{0, 0, 1, 1, 1, 2, 2, 3, 3, 4}
 	// test4 := "([)]"
 	// test5 := "{[]}"
 	// test6 := "[([]])"
@@ -55,8 +23,8 @@ func TestMergeTwoLists(t *testing.T) {
 	// 	t.Errorf("test 1 got %#v want %#v", got1, want1)
 	// }
 
-	got2 := isM(test2)
-	want2 := true
+	got2 := test2[:removeDuplicates(test2)]
+	want2 := []int{1, 2}
 	if got2 != want2 {
 		t.Errorf("test 2 got %#v want %#v", got2, want2)
 	}
