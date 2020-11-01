@@ -8,16 +8,31 @@ type ListNode struct {
 	Next *ListNode
 }
 
-func removeDuplicates(nums []int) int {
-	j := 0
-	for i := 1; i < len(nums); i++ {
-		if nums[i-1] != nums[i] {
-			j++
-			nums[j] = nums[i]
-		}
+func divide(dividend int, divisor int) int {
+	var sign, result int
+	sign = 1
+
+	if dividend == 0 {
+		return 0
+	} else if divisor == 1 {
+		result = dividend
+	} else if divisor == -1 {
+		result = -1 * dividend
 	}
-	nums = nums[:j]
-	return j + 1
+	if dividend > 0 && divisor < 0 {
+		sign = -1
+		for dividend > 0 {
+
+		}
+	} else if dividend >= 0 && divisor < 0 {
+
+	} else {
+
+	}
+
+	if result > 1<<31-1 || result < -(1<<31) {
+		return result * sign
+	}
 }
 
 func printVals(head *ListNode) {
