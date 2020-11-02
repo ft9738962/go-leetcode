@@ -9,24 +9,20 @@ type ListNode struct {
 }
 
 func findSubstring(s string, words []string) []int {
-	cws := &[]string{}
-	combineWords("", words, cws)
-	subStringDict := map[string]int{}
-	for _, word := range *cws {
-		if _, ok := subStringDict[word]; ok == true {
-			continue
-		}
-		subStringDict[word] = -1
+
+	dict := map[string]int{}
+	combineWords("", words, dict)
+	for word := range dict {
 		l := len(word)
 		for i := 0; i < len(s)-l+1; i++ {
 			if string(s[i:i+l]) == word {
-				subStringDict[word] = i
+				dict[word] = i
 				break
 			}
 		}
 	}
 	result := []int{}
-	for _, ind := range subStringDict {
+	for _, ind := range dict {
 		if ind > -1 {
 			result = append(result, ind)
 		}
@@ -35,23 +31,28 @@ func findSubstring(s string, words []string) []int {
 }
 
 func combineWords(prefix string,
-	words []string, cws *[]string) {
+	words []string, dict map[string]int) {
 	if len(words) == 1 {
-		*cws = append(*cws, prefix+words[0])
+		word := prefix + string(words[0])
+		if _, ok := dict[word]; ok == false {
+			dict[word] = -1
+		}
 	} else {
 		for i := 0; i < len(words); i++ {
 			if i == 0 {
 				combineWords(prefix+string(words[i]),
-					words[i+1:],
-					cws)
+					words[1:],
+					dict)
 			} else if i == len(words)-1 {
 				combineWords(prefix+string(words[i]),
 					words[:i],
-					cws)
+					dict)
 			} else {
+				fmt.Println(prefix + string(words[i]))
+				fmt.Println(append(words[:i], words[i+1:]...))
 				combineWords(prefix+string(words[i]),
 					append(words[:i], words[i+1:]...),
-					cws)
+					dict)
 			}
 		}
 	}
