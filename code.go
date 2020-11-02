@@ -9,7 +9,7 @@ type ListNode struct {
 }
 
 func divide(dividend int, divisor int) int {
-	var sign, result int
+	var sign, reducer, ct, result int
 	sign = 1
 
 	if dividend == 0 {
@@ -28,9 +28,18 @@ func divide(dividend int, divisor int) int {
 	}
 
 	if result == 0 {
+		ct = 1
+
+		reducer = divisor
 		for dividend >= divisor {
-			dividend -= divisor
-			result++
+			if dividend < reducer {
+				reducer = divisor
+				ct = 1
+			}
+			dividend -= reducer
+			result += ct
+			reducer = reducer << 1
+			ct = ct << 1
 		}
 	}
 
@@ -51,7 +60,7 @@ func printVals(head *ListNode) {
 
 func main() {
 	// test1 := []int{1, 1}
-	// test2 := []int{1, 1, 2}
+	test2 := []int{7, -3}
 	// test3 := []int{0, 0, 1, 1, 1, 2, 2, 3, 3, 4}
 	// a6 := ListNode{
 	// 	Val:  6,
@@ -100,6 +109,10 @@ func main() {
 	// fmt.Printf("answer1 %v\n", answer1)
 	// fmt.Printf("answer2 %v\n", answer2)
 	// fmt.Printf("answer3 %v\n", answer3)
-	r := divide(test5[0], test5[1])
-	fmt.Println(r)
+	r1 := divide(test2[0], test2[1])
+
+	r2 := divide(test5[0], test5[1])
+	fmt.Println(r1)
+	fmt.Println(r2)
+
 }

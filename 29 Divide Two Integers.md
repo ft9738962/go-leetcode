@@ -35,3 +35,49 @@ Output: 1
 
 - $-2^{31}$ <= dividend, divisor <= $2^{31}$ - 1
 - divisor != 0
+
+思路：
+因为使用固定的divisor削减dividend太慢，使用指数方法快速增加削减速度，每次当削减速度超过dividend时，重置削减值
+```go
+// runtime 4ms 66.94% memory 2.5MB 17.14%
+func divide(dividend int, divisor int) int {
+	var sign, reducer, ct, result int
+	sign = 1
+
+	if dividend == 0 {
+		return 0
+	} else if divisor == 1 || divisor == -1 {
+		result = dividend * divisor
+	} else if dividend > 0 && divisor < 0 {
+		sign = -1
+		divisor = -1 * divisor
+	} else if dividend < 0 && divisor > 0 {
+		sign = -1
+		dividend = -1 * dividend
+	} else if dividend < 0 && divisor < 0 {
+		dividend = -1 * dividend
+		divisor = -1 * divisor
+	}
+
+	if result == 0 {
+		ct = 1
+
+		reducer = divisor
+		for dividend >= divisor {
+			if dividend < reducer {
+				reducer = divisor
+				ct = 1
+			}
+			dividend -= reducer
+			result += ct
+			reducer = reducer << 1
+			ct = ct << 1
+		}
+	}
+
+	if result > 1<<31-1 || result < -(1<<31) {
+		return (1<<31 - 1) * sign
+	}
+	return result * sign
+}
+```
