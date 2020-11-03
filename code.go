@@ -9,53 +9,50 @@ type ListNode struct {
 }
 
 func findSubstring(s string, words []string) []int {
+	wordNum := len(words)
+	wordLen := len(words[0])
+	subStringLen := wordNum * wordLen
+	result := make([]int, 0)
+	var pSubstring string
 
-	dict := map[string]int{}
-	combineWords("", words, dict)
-	for word := range dict {
-		l := len(word)
-		for i := 0; i < len(s)-l+1; i++ {
-			if string(s[i:i+l]) == word {
-				dict[word] = i
-				break
-			}
+	wordsMap := map[string]int{}
+	for _, word := range words {
+		_, ok := wordsMap[word]
+		if ok == false {
+			wordsMap[word] = 1
+		} else {
+			wordsMap[word]++
 		}
 	}
-	result := []int{}
-	for _, ind := range dict {
-		if ind > -1 {
-			result = append(result, ind)
+
+	for i := 0; i < len(s)+1-subStringLen; i++ {
+		pSubstring = s[i : i+subStringLen]
+		wordsCount := map[string]int{}
+		valid := 1
+		for j := 0; j < subStringLen; j = j + wordLen {
+			w := pSubstring[j : j+wordLen]
+			num, ok := wordsMap[w]
+			if ok == false {
+				valid = 0
+				break
+			} else {
+				ct, ok := wordsCount[w]
+				if ok == false {
+					wordsCount[w] = 1
+				} else if ct == num {
+					valid = 0
+					break
+				} else {
+					wordsCount[w]++
+				}
+			}
 		}
+		if valid == 1 {
+			result = append(result, i)
+		}
+
 	}
 	return result
-}
-
-func combineWords(prefix string,
-	words []string, dict map[string]int) {
-	if len(words) == 1 {
-		word := prefix + string(words[0])
-		if _, ok := dict[word]; ok == false {
-			dict[word] = -1
-		}
-	} else {
-		for i := 0; i < len(words); i++ {
-			if i == 0 {
-				combineWords(prefix+string(words[i]),
-					words[1:],
-					dict)
-			} else if i == len(words)-1 {
-				combineWords(prefix+string(words[i]),
-					words[:i],
-					dict)
-			} else {
-				fmt.Println(prefix + string(words[i]))
-				fmt.Println(append(words[:i], words[i+1:]...))
-				combineWords(prefix+string(words[i]),
-					append(words[:i], words[i+1:]...),
-					dict)
-			}
-		}
-	}
 }
 
 func printVals(head *ListNode) {
@@ -78,8 +75,8 @@ func main() {
 	// test5 := []int{-2147483648, 2}
 	// var c1 *ListNode
 
-	s := "barfoofoobarthefoobarman"
-	words := []string{"bar", "foo", "the"}
+	s := "pjzkrkevzztxductzzxmxsvwjkxpvukmfjywwetvfnujhweiybwvvsrfequzkhossmootkmyxgjgfordrpapjuunmqnxxdrqrfgkrsjqbszgiqlcfnrpjlcwdrvbumtotzylshdvccdmsqoadfrpsvnwpizlwszrtyclhgilklydbmfhuywotjmktnwrfvizvnmfvvqfiokkdprznnnjycttprkxpuykhmpchiksyucbmtabiqkisgbhxngmhezrrqvayfsxauampdpxtafniiwfvdufhtwajrbkxtjzqjnfocdhekumttuqwovfjrgulhekcpjszyynadxhnttgmnxkduqmmyhzfnjhducesctufqbumxbamalqudeibljgbspeotkgvddcwgxidaiqcvgwykhbysjzlzfbupkqunuqtraxrlptivshhbihtsigtpipguhbhctcvubnhqipncyxfjebdnjyetnlnvmuxhzsdahkrscewabejifmxombiamxvauuitoltyymsarqcuuoezcbqpdaprxmsrickwpgwpsoplhugbikbkotzrtqkscekkgwjycfnvwfgdzogjzjvpcvixnsqsxacfwndzvrwrycwxrcismdhqapoojegggkocyrdtkzmiekhxoppctytvphjynrhtcvxcobxbcjjivtfjiwmduhzjokkbctweqtigwfhzorjlkpuuliaipbtfldinyetoybvugevwvhhhweejogrghllsouipabfafcxnhukcbtmxzshoyyufjhzadhrelweszbfgwpkzlwxkogyogutscvuhcllphshivnoteztpxsaoaacgxyaztuixhunrowzljqfqrahosheukhahhbiaxqzfmmwcjxountkevsvpbzjnilwpoermxrtlfroqoclexxisrdhvfsindffslyekrzwzqkpeocilatftymodgztjgybtyheqgcpwogdcjlnlesefgvimwbxcbzvaibspdjnrpqtyeilkcspknyylbwndvkffmzuriilxagyerjptbgeqgebiaqnvdubrtxibhvakcyotkfonmseszhczapxdlauexehhaireihxsplgdgmxfvaevrbadbwjbdrkfbbjjkgcztkcbwagtcnrtqryuqixtzhaakjlurnumzyovawrcjiwabuwretmdamfkxrgqgcdgbrdbnugzecbgyxxdqmisaqcyjkqrntxqmdrczxbebemcblftxplafnyoxqimkhcykwamvdsxjezkpgdpvopddptdfbprjustquhlazkjfluxrzopqdstulybnqvyknrchbphcarknnhhovweaqawdyxsqsqahkepluypwrzjegqtdoxfgzdkydeoxvrfhxusrujnmjzqrrlxglcmkiykldbiasnhrjbjekystzilrwkzhontwmehrfsrzfaqrbbxncphbzuuxeteshyrveamjsfiaharkcqxefghgceeixkdgkuboupxnwhnfigpkwnqdvzlydpidcljmflbccarbiegsmweklwngvygbqpescpeichmfidgsjmkvkofvkuehsmkkbocgejoiqcnafvuokelwuqsgkyoekaroptuvekfvmtxtqshcwsztkrzwrpabqrrhnlerxjojemcxel"
+	words := []string{"dhvf", "sind", "ffsl", "yekr", "zwzq", "kpeo", "cila", "tfty", "modg", "ztjg", "ybty", "heqg", "cpwo", "gdcj", "lnle", "sefg", "vimw", "bxcb"}
 	// d1 := ListNode{
 	// 	Val:  2,
 	// 	Next: nil,
