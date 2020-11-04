@@ -8,51 +8,38 @@ type ListNode struct {
 	Next *ListNode
 }
 
-func findSubstring(s string, words []string) []int {
-	wordNum := len(words)
-	wordLen := len(words[0])
-	subStringLen := wordNum * wordLen
-	result := make([]int, 0)
-	var pSubstring string
+func nextPermutation(nums []int) {
+	var a, b int
+	a, b = 0, len(nums)-1
 
-	wordsMap := map[string]int{}
-	for _, word := range words {
-		_, ok := wordsMap[word]
-		if ok == false {
-			wordsMap[word] = 1
-		} else {
-			wordsMap[word]++
-		}
-	}
-
-	for i := 0; i < len(s)+1-subStringLen; i++ {
-		pSubstring = s[i : i+subStringLen]
-		wordsCount := map[string]int{}
-		valid := 1
-		for j := 0; j < subStringLen; j = j + wordLen {
-			w := pSubstring[j : j+wordLen]
-			num, ok := wordsMap[w]
-			if ok == false {
-				valid = 0
+	for i := len(nums) - 2; i >= 0; i-- {
+		if nums[i] < nums[i+1] {
+			if nums[i] < nums[len(nums)-1] {
+				nums[i], nums[len(nums)-1] = nums[len(nums)-1], nums[i]
+				a = i + 1
 				break
-			} else {
-				ct, ok := wordsCount[w]
-				if ok == false {
-					wordsCount[w] = 1
-				} else if ct == num {
-					valid = 0
-					break
-				} else {
-					wordsCount[w]++
-				}
 			}
+			if i+2 <= len(nums)-1 {
+				for j := i + 2; j <= len(nums)-1; j++ {
+					if nums[i] >= nums[j] {
+						nums[i], nums[j-1] = nums[j-1], nums[i]
+						break
+					}
+				}
+			} else {
+				nums[i], nums[i+1] = nums[i+1], nums[i]
+			}
+			a = i + 1
+			break
 		}
-		if valid == 1 {
-			result = append(result, i)
-		}
-
 	}
-	return result
+
+	for a < b {
+		nums[a], nums[b] = nums[b], nums[a]
+		a++
+		b--
+	}
+
 }
 
 func printVals(head *ListNode) {
@@ -75,8 +62,6 @@ func main() {
 	// test5 := []int{-2147483648, 2}
 	// var c1 *ListNode
 
-	s := "pjzkrkevzztxductzzxmxsvwjkxpvukmfjywwetvfnujhweiybwvvsrfequzkhossmootkmyxgjgfordrpapjuunmqnxxdrqrfgkrsjqbszgiqlcfnrpjlcwdrvbumtotzylshdvccdmsqoadfrpsvnwpizlwszrtyclhgilklydbmfhuywotjmktnwrfvizvnmfvvqfiokkdprznnnjycttprkxpuykhmpchiksyucbmtabiqkisgbhxngmhezrrqvayfsxauampdpxtafniiwfvdufhtwajrbkxtjzqjnfocdhekumttuqwovfjrgulhekcpjszyynadxhnttgmnxkduqmmyhzfnjhducesctufqbumxbamalqudeibljgbspeotkgvddcwgxidaiqcvgwykhbysjzlzfbupkqunuqtraxrlptivshhbihtsigtpipguhbhctcvubnhqipncyxfjebdnjyetnlnvmuxhzsdahkrscewabejifmxombiamxvauuitoltyymsarqcuuoezcbqpdaprxmsrickwpgwpsoplhugbikbkotzrtqkscekkgwjycfnvwfgdzogjzjvpcvixnsqsxacfwndzvrwrycwxrcismdhqapoojegggkocyrdtkzmiekhxoppctytvphjynrhtcvxcobxbcjjivtfjiwmduhzjokkbctweqtigwfhzorjlkpuuliaipbtfldinyetoybvugevwvhhhweejogrghllsouipabfafcxnhukcbtmxzshoyyufjhzadhrelweszbfgwpkzlwxkogyogutscvuhcllphshivnoteztpxsaoaacgxyaztuixhunrowzljqfqrahosheukhahhbiaxqzfmmwcjxountkevsvpbzjnilwpoermxrtlfroqoclexxisrdhvfsindffslyekrzwzqkpeocilatftymodgztjgybtyheqgcpwogdcjlnlesefgvimwbxcbzvaibspdjnrpqtyeilkcspknyylbwndvkffmzuriilxagyerjptbgeqgebiaqnvdubrtxibhvakcyotkfonmseszhczapxdlauexehhaireihxsplgdgmxfvaevrbadbwjbdrkfbbjjkgcztkcbwagtcnrtqryuqixtzhaakjlurnumzyovawrcjiwabuwretmdamfkxrgqgcdgbrdbnugzecbgyxxdqmisaqcyjkqrntxqmdrczxbebemcblftxplafnyoxqimkhcykwamvdsxjezkpgdpvopddptdfbprjustquhlazkjfluxrzopqdstulybnqvyknrchbphcarknnhhovweaqawdyxsqsqahkepluypwrzjegqtdoxfgzdkydeoxvrfhxusrujnmjzqrrlxglcmkiykldbiasnhrjbjekystzilrwkzhontwmehrfsrzfaqrbbxncphbzuuxeteshyrveamjsfiaharkcqxefghgceeixkdgkuboupxnwhnfigpkwnqdvzlydpidcljmflbccarbiegsmweklwngvygbqpescpeichmfidgsjmkvkofvkuehsmkkbocgejoiqcnafvuokelwuqsgkyoekaroptuvekfvmtxtqshcwsztkrzwrpabqrrhnlerxjojemcxel"
-	words := []string{"dhvf", "sind", "ffsl", "yekr", "zwzq", "kpeo", "cila", "tfty", "modg", "ztjg", "ybty", "heqg", "cpwo", "gdcj", "lnle", "sefg", "vimw", "bxcb"}
 	// d1 := ListNode{
 	// 	Val:  2,
 	// 	Next: nil,
@@ -117,7 +102,9 @@ func main() {
 	// fmt.Printf("answer1 %v\n", answer1)
 	// fmt.Printf("answer2 %v\n", answer2)
 	// fmt.Printf("answer3 %v\n", answer3)
-	fmt.Println(findSubstring(s, words))
+	nums := []int{1, 5, 1}
+	nextPermutation(nums)
+	fmt.Println(nums)
 	// fmt.Println(r2)
 
 }
