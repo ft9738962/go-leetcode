@@ -10,24 +10,15 @@ type ListNode struct {
 
 func longestValidParentheses(s string) int {
 	maxLen := 0
-	var j, curLen, lastFlag int
+	var j, curLen, lastl, lastr int
 	if s == "" {
 		return maxLen
 	}
 
 	for i := 0; i < len(s)-1; {
-		j = i + 1
-		if s[i] == 40 && s[j] == 41 {
-			for len(s)-1-j >= 2 {
-				if s[j+1] == 40 && s[j+2] == 41 {
-					j += 2
-					continue
-				} else {
-					break
-				}
-			}
-			curLen = j - i + 1
-			for l, r := i, j; l > 0 && r < len(s)-1; {
+		if s[i] == 40 && s[i+1] == 41 {
+
+			for l, r := i, i+1; l > 0 && r < len(s)-1; {
 				l--
 				r++
 				if s[l] == 40 && s[r] == 41 {
@@ -40,7 +31,7 @@ func longestValidParentheses(s string) int {
 			if curLen > maxLen {
 				maxLen = curLen
 			}
-			i = j + 1
+			i = r + 1
 		}
 		i++
 	}
