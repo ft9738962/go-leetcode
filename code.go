@@ -7,57 +7,30 @@ type stack struct {
 	vals []int
 }
 
-func (s *stack) push(n int) {
-	s.vals = append(s.vals, n)
-}
-
-func (s *stack) pop() {
-	s.vals = s.vals[:len(s.vals)-1]
-}
-
-func (s *stack) insert(pos int, n int) {
-	if pos < 0 || pos > len(s.vals) {
-		fmt.Println("position is not valid")
-	}
-	if pos == 0 {
-		s.vals = append([]int{n}, s.vals...)
-	} else if pos == len(s.vals) {
-		s.push(n)
-	} else {
-		s.vals = append(append(s.vals[:pos], n), s.vals[pos+1:]...)
-	}
-}
-
-func (s *stack) peak() int {
-	return s.vals[len(s.vals)-1]
-}
-
-func longestValidParentheses(s string) int {
-	st := stack{[]int{}}
-	var maxLen int
-	for i := 0; i < len(s); i++ {
-		if string(s[i]) == "(" {
-			st.push(i)
-		} else {
-			if len(st.vals) > 0 {
-				if string(s[st.peak()]) == "(" {
-					st.pop()
-				} else {
-					st.push(i)
-				}
-			} else {
-				st.push(i)
-			}
+func search(nums []int, target int) int {
+	l, m, r := 0, len(nums)/2, len(nums)-1
+	for l != m || m != r {
+		if target > nums[l] && target < nums[m] {
+			return oneDirectionSearch(nums, target, l, m)
+		} else if target > nums[l] && target > nums[m] {
+			l, m, r = m, (m+r)/2, r
+		} else if target < nums[l] && target > nums[m] {
+			l, m, r = m, (m+r)/2, r
+		} else if target < nums[l] && target < nums[m] {
+			return oneDirectionSearch(nums, target, l, m)
+		} else if target == nums[l] {
+			return l
+		} else if target == nums[m] {
+			return m
+		} else if target == nums[r] {
+			return r
 		}
 	}
-	st.insert(0, -1)
-	st.push(len(s))
-	for i := 0; i < len(st.vals)-1; i++ {
-		if st.vals[i+1]-st.vals[i]-1 > maxLen {
-			maxLen = st.vals[i+1] - st.vals[i] - 1
-		}
-	}
-	return maxLen
+	return -1
+}
+
+func oneDirectionSearch(nums []int, target int, l, r int) int {
+
 }
 
 func main() {
