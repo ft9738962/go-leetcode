@@ -3,87 +3,57 @@ package main
 import "fmt"
 
 // ListNode ...
-type stack struct {
-	vals []int
-}
+// type stack struct {
+// 	vals []int
+// }
 
-func search(nums []int, target int) int {
-	l, r := 0, len(nums)-1
-	result := -1
-	recurSearch(nums, target, l, r, &result)
-	return result
-}
+func isValidSudoku(board [][]byte) bool {
+	hlineCheck := map[int]bool{}
+	vlineCheck := map[int]bool{}
+	blockCheck := [9]map[int]bool{}
 
-func recurSearch(nums []int, target int, l, r int, result *int) {
-	mid := (l + r) / 2
-	if mid == l {
-		if target == nums[l] {
-			*result = l
-		}
-		if target == nums[r] {
-			*result = r
-		}
-	} else {
-		if nums[mid] >= nums[l] {
-			if target >= nums[l] {
-				if nums[mid] >= target {
-					oneDirectionSearch(nums, target, l, mid, result)
-				} else {
-					recurSearch(nums, target, mid+1, r, result)
-				}
+	for i := 0; i < 9; i++ {
+		for j := 0; j < 9; j++ {
+			if string(board[i][j]) == "." {
+				continue
+			} else if hlineCheck[int(board[i][j])] == false {
+				hlineCheck[int(board[i][j])] = true
 			} else {
-				recurSearch(nums, target, mid+1, r, result)
+				return false
 			}
-		} else {
-			if target >= nums[l] {
-				recurSearch(nums, target, l, mid, result)
+
+			if string(board[j][i]) == "." {
+				continue
+			} else if vlineCheck[int(board[j][i])] == false {
+				vlineCheck[int(board[j][i])] = true
 			} else {
-				if target <= nums[r] {
-					if target >= nums[mid] {
-						oneDirectionSearch(nums, target, mid, r, result)
-					} else {
-						recurSearch(nums, target, l, mid-1, result)
-					}
-				}
+				return false
+			}
+
+			if blockCheck[i*3+j][int(board[i][j])] == false {
+				blockCheck[i*3+j][int(board[i][j])] = true
+			} else {
+				return false
 			}
 		}
 	}
-}
-
-func oneDirectionSearch(nums []int, target int, l, r int, result *int) {
-	mid := (l + r) / 2
-	for mid != l {
-		if nums[r] == target {
-			*result = r
-			break
-		} else if nums[mid] > target {
-			r = mid
-		} else if nums[mid] < target {
-			l = mid
-		} else {
-			*result = mid
-			break
-		}
-		mid = (l + r) / 2
-	}
-	if nums[l] == target {
-		*result = l
-	} else if nums[r] == target {
-		*result = r
-	}
+	return true
 }
 
 func main() {
 
-	// in := []int{4, 5, 6, 7, 0, 1, 2, 3}
-	in2 := []int{1, 3, 5}
-	// in3 := ")()())"
+	in := [][]byte{
+		[]byte{"8", "3", ".", ".", "7", ".", ".", ".", "."},
+	}
+	in2 := []int{5, 7, 7, 8, 8, 10}
+	in3 := []int{}
 	// in4 := ")(((((()())()()))()(()))("
 	// in5 := ")(()(()(((())(((((()()))((((()()(()()())())())()))()()()())(())()()(((()))))()((()))(((())()((()()())((())))(())))())((()())()()((()((())))))((()(((((()((()))(()()(())))((()))()))())"
 	// fmt.Println(longestValidParentheses(in))
 
-	// fmt.Println(search(in, 0))
-	fmt.Println(search(in2, 3))
+	fmt.Println(searchRange(in, 1))
+	fmt.Println(searchRange(in2, 8))
+	fmt.Println(searchRange(in3, 0))
 	// fmt.Println(longestValidParentheses(in4))
 	// fmt.Println(longestValidParentheses(in5))
 
