@@ -12,18 +12,15 @@ func isValidSudoku(board [][]byte) bool {
 	var blockNo, blockPos, hPos, vPos int
 	for i := 0; i < 9; i++ {
 		for j := 0; j < 9; j++ {
-			num := int(board[i][j] - 48)
-			if num+2 == 0 {
+			num := int(board[i][j]) - 49
+			if num+3 == 0 {
 				continue
 			}
 
 			blockNo = (i/3)*3 + j/3
 			blockPos = num + blockNo*9
-			vPos = 81 + j*9 + i
-			hPos = 162 + i*9 + j
-			fmt.Print(blockPos/64,
-				vPos/64,
-				hPos/64, " ")
+			vPos = 81 + j*9 + num
+			hPos = 162 + i*9 + num
 
 			if pos[blockPos/64]>>(blockPos%64)&1 == 1 ||
 				pos[vPos/64]>>(vPos%64)&1 == 1 ||

@@ -95,4 +95,35 @@ func isValidSudoku(board [][]byte) bool {
 ### 思路2
 使用bit来储存，用9个9bit来表示横排，9个9bit表示竖排，9个9bit表示区块，这样只需要243个bit就能够包含数独的所有信息，对应的就是4个uint64数据
 
+```go
+// runtime 0ms 100% memory 2.8MB 100%
+func isValidSudoku(board [][]byte) bool {
+	var pos = [4]uint64{0, 0, 0, 0} // 初始4个uint64数字储存
+	var blockNo, blockPos, hPos, vPos int // 记录数字在行、列、块的位置
+	for i := 0; i < 9; i++ {
+		for j := 0; j < 9; j++ {
+			num := int(board[i][j]) - 49
+			if num+3 == 0 {
+				continue
+			} // 跳过"."
+
+			blockNo = (i/3)*3 + j/3
+			blockPos = num + blockNo*9
+			vPos = 81 + j*9 + num
+			hPos = 162 + i*9 + num
+
+			if pos[blockPos/64]>>(blockPos%64)&1 == 1 ||
+				pos[vPos/64]>>(vPos%64)&1 == 1 ||
+				pos[hPos/64]>>(hPos%64)&1 == 1 {
+				return false
+			} // 如果该数字在同行、同列、同块有重复，返回false
+			pos[blockPos/64] += 0x1 << (blockPos % 64)
+			pos[vPos/64] += 0x1 << (vPos % 64)
+            pos[hPos/64] += 0x1 << (hPos % 64)
+            // 没有的话，就在对应位置记录
+
+		}
+	}
+	return true
+}
 ```
