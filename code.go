@@ -1,39 +1,38 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+)
 
 // ListNode ...
 // type stack struct {
 // 	vals []int
 // }
 
-func isValidSudoku(board [][]byte) bool {
-	var pos = [4]uint64{0, 0, 0, 0}
-	var blockNo, blockPos, hPos, vPos int
-	for i := 0; i < 9; i++ {
-		for j := 0; j < 9; j++ {
-			num := int(board[i][j]) - 49
-			if num+3 == 0 {
-				continue
-			}
+func combinationSum(candidates []int, target int) [][]int {
+	solutions := [][]int{}
+	recMap := make(map[int]bool)
 
-			blockNo = (i/3)*3 + j/3
-			blockPos = num + blockNo*9
-			vPos = 81 + j*9 + num
-			hPos = 162 + i*9 + num
+	return solutions
+}
 
-			if pos[blockPos/64]>>(blockPos%64)&1 == 1 ||
-				pos[vPos/64]>>(vPos%64)&1 == 1 ||
-				pos[hPos/64]>>(hPos%64)&1 == 1 {
-				return false
-			}
-			pos[blockPos/64] += 0x01 << (blockPos % 64)
-			pos[vPos/64] += 0x01 << (vPos % 64)
-			pos[hPos/64] += 0x01 << (hPos % 64)
-
+func try(candidates []int, target int, solution []int, solutions *[][]int, recMap *map[int]bool) {
+	for i := len(candidates) - 1; i >= 0; i-- {
+		newTarget := target - candidates[i]
+		if ok := recMap[newTarget] {
+			
+		}
+		if newTarget == 0 {
+			solution = append(solution, candidates[i])
+			*solutions = append(*solutions, solution)
+			break
+		} else if newTarget > 0 {
+			&recMap[newTarget] = 1
+			try(candidates, newTarget, append(solution, candidates[i]), solutions)
+		} else {
+			continue
 		}
 	}
-	return true
 }
 
 func main() {
