@@ -10,36 +10,29 @@ import (
 // }
 
 func combinationSum(candidates []int, target int) [][]int {
-	solutions := [][]int{}
-	recMap := make(map[int]bool)
-	recurTry(candidates, target, []int{}, &solutions, &recMap)
+	solutions := recurCombine(candidates, target)
 	return solutions
 }
 
-func recurTry(candidates []int, target int, solution []int, solutions *[][]int, recMap *map[int]bool) {
+func recurCombine(candidates []int, target int) (solutions [][]int) {
 	for i := len(candidates) - 1; i >= 0; i-- {
 		newTarget := target - candidates[i]
 
 		if newTarget == 0 {
-			solution = append(solution, candidates[i])
-			*solutions = append(*solutions, solution)
-			solution = []int{}
-			continue
+			answer := []int{candidates[i]}
+			return [][]int{answer}
 		} else if newTarget > 0 {
-			if ok := (*recMap)[newTarget]; ok == true {
-				continue
-			} else {
-				solution = append(solution, candidates[i])
-				recurTry(candidates[:i+1], newTarget, solution, solutions, recMap)
-				(*recMap)[newTarget] = true
+			answers := recurCombine(candidates[:i+1], newTarget)
+			for _, answer := range answers {
+				solutions = append(solutions,
+					append(answer, candidates[i]))
 			}
+			return solutions
 		} else {
-			if i == 0 {
-				solution = []int{}
-			}
 			break
 		}
 	}
+	return
 }
 
 func main() {
