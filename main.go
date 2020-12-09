@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"sort"
 )
 
 // ListNode ...
@@ -10,41 +11,45 @@ import (
 // }
 
 func combinationSum(candidates []int, target int) [][]int {
-	solutions := recurCombine(candidates, target)
+	var solutions [][]int
+	var solution []int
+	sort.Ints(candidates)
+	fmt.Println(candidates)
+	recurCombine(candidates, target, solution,
+		&solutions)
 	return solutions
 }
 
-func recurCombine(candidates []int, target int) (solutions [][]int) {
-	for i := len(candidates) - 1; i >= 0; i-- {
-		newTarget := target - candidates[i]
-
+func recurCombine(candidates []int, target int, solution []int,
+	solutionsPtr *[][]int) {
+	for i := len(candidates) - 1; i > -1; i-- {
+		v := candidates[i]
+		newTarget := target - v
 		if newTarget == 0 {
-			answer := []int{candidates[i]}
-			return [][]int{answer}
+			// fmt.Println(candidates[i], solution, newTarget, append(solution, candidates[i]))
+			solutionCopy := make([]int, len(solution)+1)
+			copy(solutionCopy, solution)
+			solutionCopy[len(solutionCopy)-1] = v
+			*solutionsPtr = append(*solutionsPtr, solutionCopy)
 		} else if newTarget > 0 {
-			answers := recurCombine(candidates[:i+1], newTarget)
-			for _, answer := range answers {
-				solutions = append(solutions,
-					append(answer, candidates[i]))
-			}
-			return solutions
+			recurCombine(candidates[:i+1], newTarget, append(solution, v),
+				solutionsPtr)
 		} else {
-			break
 		}
 	}
-	return
 }
 
 func main() {
 
-	in := []int{2, 3, 6, 7}
+	in := []int{2, 7, 6, 3, 5, 1}
 	// in2 := []int{5, 7, 7, 8, 8, 10}
 	// in3 := []int{}
 	// in4 := ")(((((()())()()))()(()))("
 	// in5 := ")(()(()(((())(((((()()))((((()()(()()())())())()))()()()())(())()()(((()))))()((()))(((())()((()()())((())))(())))())((()())()()((()((())))))((()(((((()((()))(()()(())))((()))()))())"
 	// fmt.Println(longestValidParentheses(in))
 
-	fmt.Println(combinationSum(in, 7))
+	fmt.Println(combinationSum(in, 9))
+	// combinationSum(in, 9)
 	// fmt.Println(searchRange(in2, 8))
 	// fmt.Println(searchRange(in3, 0))
 	// fmt.Println(longestValidParentheses(in4))
